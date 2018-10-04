@@ -1,0 +1,17 @@
+version: '2'
+services:
+  login:
+    image: repo.cfhn.it/mycfhn/login-ms/login-ms
+    build: .
+    networks:
+      - traefik_net
+    environment:
+      JAVA_OPTS: "-Dcfhn.login.publicKey=$publicKey -Dcfhn.login.privateKey=$privateKey -Dspring.ldap.password=$ldapPassword"
+    labels:
+      traefik.enable: "true"
+      traefik.docker.network: "traefik_net"
+      traefik.port: "8080"
+      traefik.frontend.rule: "Host:login.my.cfhn.it"
+networks:
+  traefik_net:
+    external: true

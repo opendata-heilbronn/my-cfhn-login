@@ -1,0 +1,18 @@
+spring:
+  ldap:
+    urls: ldaps://ldap.cfhn.it
+    base: dc=cfhn,dc=it
+    username: cn=admin,dc=cfhn,dc=it
+    password: ldap password here
+cfhn:
+  login:
+    privateKey: |
+      -----BEGIN PRIVATE KEY-----
+      private key here
+      -----END PRIVATE KEY-----
+    publicKey: |
+      -----BEGIN PUBLIC KEY-----
+      public key here
+      -----END PUBLIC KEY-----
+    domain: my.cfhn.it
+    secure: false
