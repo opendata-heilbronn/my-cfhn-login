@@ -1,0 +1,15 @@
+image: maven:3-jdk-8
+stages:
+  - build
+  - deploy
+
+build:
+  stage: build
+  script:
+    - mvn clean install
+    - docker-compose build
+    - docker-compose push
+deploy:
+  stage: deploy
+  script:
+    - docker-compose up -d
