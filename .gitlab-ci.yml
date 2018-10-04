@@ -1,4 +1,4 @@
-image: maven:3-jdk-8
+image: repo.cfhn.it/infrastructure/gitlab/maven-docker
 stages:
   - build
   - deploy
