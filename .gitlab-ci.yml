@@ -1,15 +1,16 @@
-image: repo.cfhn.it/infrastructure/gitlab/maven-docker
-stages:
-  - build
-  - deploy
+image: docker:stable
+
+variables:
+  DOCKER_HOST: tcp://docker:2375/
+  DOCKER_DRIVER: overlay2
+
+services:
+- docker:dind
+
+before_script:
+- docker info
 
 build:
   stage: build
   script:
-    - mvn clean install
-    - docker-compose build
-    - docker-compose push
-deploy:
-  stage: deploy
-  script:
-    - docker-compose up -d
+  - docker build -t repo.cfhn.it/mycfhn/login-ms/login-ms .
