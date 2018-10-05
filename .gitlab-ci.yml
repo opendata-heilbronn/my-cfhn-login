@@ -7,11 +7,9 @@ variables:
 services:
 - docker:dind
 
-before_script:
-- docker login -u $DOCKER_REGISTRY_USER -p $DOCKER_REGISTRY_PASSWORD repo.cfhn.it
-
 build:
   stage: build
   script:
+  - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN repo.cfhn.it
   - docker build -t repo.cfhn.it/mycfhn/login-ms/login-ms .
   - docker push repo.cfhn.it/mycfhn/login-ms/login-ms
