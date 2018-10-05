@@ -8,7 +8,7 @@ services:
 - docker:dind
 
 before_script:
-- docker info
+- docker login -u $DOCKER_REGISTRY_USER -p $DOCKER_REGISTRY_PASSWORD repo.cfhn.it
 
 build:
   stage: build
