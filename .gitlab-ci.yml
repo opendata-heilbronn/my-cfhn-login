@@ -14,3 +14,4 @@ build:
   stage: build
   script:
   - docker build -t repo.cfhn.it/mycfhn/login-ms/login-ms .
+  - docker push repo.cfhn.it/mycfhn/login-ms/login-ms
