@@ -14,7 +14,7 @@ build:
   - docker push repo.cfhn.it/mycfhn/login-ms/login-ms
 
 deploy:
-  image: docker:stable
+  image: docker/compose:1.22.0
   stage: deploy
   tags:
   - deploy
