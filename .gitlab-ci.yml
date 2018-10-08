@@ -16,8 +16,7 @@ build:
 deploy:
   image:
     name: docker/compose:1.22.0
-    entrypoint:
-    - /bin/sh
+    entrypoint: [""]
   stage: deploy
   tags:
   - deploy
