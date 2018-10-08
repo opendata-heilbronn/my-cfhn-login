@@ -1,15 +1,23 @@
-image: docker:stable
-
-variables:
-  DOCKER_HOST: tcp://docker:2375/
-  DOCKER_DRIVER: overlay2
-
-services:
-- docker:dind
-
 build:
+  image: docker:stable
+  variables:
+    DOCKER_HOST: tcp://docker:2375/
+    DOCKER_DRIVER: overlay2
+  services:
+  - docker:dind
   stage: build
+  tags:
+  - build
   script:
   - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN repo.cfhn.it
   - docker build -t repo.cfhn.it/mycfhn/login-ms/login-ms .
   - docker push repo.cfhn.it/mycfhn/login-ms/login-ms
+
+deploy:
+  image: docker:stable
+  stage: deploy
+  tags:
+  - deploy
+  script:
+  - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN repo.cfhn.it
+  - docker-compose up -d
