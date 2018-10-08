@@ -7,10 +7,9 @@ import de.codeforheilbronn.mycfhn.login.service.TokenService;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
@@ -30,7 +29,7 @@ public class LoginController {
     @Value("${cfhn.login.secure}")
     private boolean cookieSecure;
 
-    @PostMapping("/token")
+    @PostMapping(value = "/token.json", consumes = MediaType.APPLICATION_JSON_VALUE)
     public LoginResponse login(
             @RequestBody LoginData data,
             HttpServletResponse response
@@ -43,5 +42,13 @@ public class LoginController {
         cookie.setPath("/");
         response.addCookie(cookie);
         return new LoginResponse(token);
+    }
+
+    @PostMapping(value = "/token.form", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    public LoginResponse loginForm(@RequestParam String redirect, @ModelAttribute LoginData data, HttpServletResponse response) {
+        LoginResponse token = login(data, response);
+        response.addHeader("Location", redirect);
+        response.setStatus(HttpStatus.SEE_OTHER.value());
+        return token;
     }
 }
