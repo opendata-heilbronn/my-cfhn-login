@@ -22,4 +22,5 @@ deploy:
   - deploy
   script:
   - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN repo.cfhn.it
-  - docker-compose up -d
+  - docker-compose pull
+  - docker-compose up -d --no-build
