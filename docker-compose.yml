@@ -12,6 +12,11 @@ services:
       traefik.docker.network: "traefik_net"
       traefik.port: "8080"
       traefik.frontend.rule: "Host:login.my.cfhn.it"
+      prometheus.enable: "true"
+      prometheus.port: "8080"
+      prometheus.path: "/actuator/prometheus"
 networks:
   traefik_net:
+    external: true
+  prometheus_net:
     external: true

@@ -5,7 +5,6 @@ import io.jsonwebtoken.Header;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.extern.slf4j.Slf4j;
-import org.bouncycastle.util.encoders.Base64;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -14,6 +13,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
+import java.util.Base64;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -29,10 +29,11 @@ public class TokenService {
     public TokenService(@Value("${cfhn.login.privateKey}") String privateKeyString) throws NoSuchAlgorithmException, InvalidKeySpecException {
         String encodedKey = privateKeyString
                 .replace("-----BEGIN PRIVATE KEY-----", "")
-                .replace("-----END PRIVATE KEY-----", "");
+                .replace("-----END PRIVATE KEY-----", "")
+                .replace(" ", "");
         KeyFactory keyFactory = KeyFactory.getInstance("EC");
         privateKey = keyFactory.generatePrivate(
-                new PKCS8EncodedKeySpec(Base64.decode(encodedKey))
+                new PKCS8EncodedKeySpec(Base64.getDecoder().decode(encodedKey))
         );
     }
 
