@@ -1,4 +1,4 @@
-build:
+build_branch:
   image: docker:stable
   variables:
     DOCKER_HOST: tcp://docker:2375/
@@ -6,6 +6,25 @@ build:
   services:
   - docker:dind
   stage: build
+  except:
+  - master
+  tags:
+  - build
+  script:
+  - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN repo.cfhn.it
+  - docker build -t repo.cfhn.it/mycfhn/login-ms/login-ms:$CI_COMMIT_REF_SLUG .
+  - docker push repo.cfhn.it/mycfhn/login-ms/login-ms:$CI_COMMIT_REF_SLUG
+
+build_master:
+  image: docker:stable
+  variables:
+    DOCKER_HOST: tcp://docker:2375/
+    DOCKER_DRIVER: overlay2
+  services:
+  - docker:dind
+  stage: build
+  only:
+  - master
   tags:
   - build
   script:
@@ -18,6 +37,8 @@ deploy:
     name: docker/compose:1.22.0
     entrypoint: [""]
   stage: deploy
+  only:
+  - master
   tags:
   - deploy
   script:
