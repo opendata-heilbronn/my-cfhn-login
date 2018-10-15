@@ -46,6 +46,7 @@ public class TokenService {
                 .setAudience("mycfhn")
                 .setSubject(user.getUsername())
                 .claim("username", user.getUsername())
+                .claim("name", user.getFullName())
                 .claim("birthday", user.getBirthday())
                 .claim("mail", user.getMail())
                 .claim("entryDate", user.getEntryDate())
